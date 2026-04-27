@@ -1,0 +1,10 @@
+*.dblite
+*.obj
+{{cookiecutter.project_name}}.*.template*
+~{{cookiecutter.project_name}}.*.dll
+~{{cookiecutter.project_name}}.*.pdb
+{{cookiecutter.project_name}}.*.ilk
+builds/
+*.TMP
+.sconsign.dblite
+*.pdb

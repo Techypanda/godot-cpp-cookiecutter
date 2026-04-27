@@ -1,0 +1,88 @@
+#!/usr/bin/env python
+import os
+import sys
+import warnings
+import glob
+from SCons.Script import File
+
+# TODO: modify scripts to build clientserver, server and client
+env = SConscript("godot-cpp/SConstruct")
+if "dev_build" in ARGUMENTS and ARGUMENTS["dev_build"] == "yes" or "dev_build" in ARGUMENTS and ARGUMENTS["dev_build"] == True or "server" in ARGUMENTS:
+    env.Append(CPPDEFINES=["SERVER"])
+
+if "dev_build" in ARGUMENTS and ARGUMENTS["dev_build"] == "yes" or "dev_build" in ARGUMENTS and ARGUMENTS["dev_build"] == True or "server" not in ARGUMENTS:
+    env.Append(CPPDEFINES=["CLIENT"])
+
+if env.get("is_msvc", False):
+    env["CXXFLAGS"] = [f for f in env["CXXFLAGS"] if f != "/std:c++17"]
+    env.Append(CXXFLAGS=["/std:c++20"])
+else:
+    env["CXXFLAGS"] = [f for f in env["CXXFLAGS"] if f != "-std=c++17"]
+    env.Append(CXXFLAGS=["-std=c++20"])
+
+# For reference:
+# - CCFLAGS are compilation flags shared between C and C++
+# - CFLAGS are for C-specific compilation flags
+# - CXXFLAGS are for C++-specific compilation flags
+# - CPPFLAGS are for pre-processor flags
+# - CPPDEFINES are for pre-processor defines
+# - LINKFLAGS are for linking flags
+
+PATH_DELIMITER = ";!$"
+def recurse_public(path: str, folder: str) -> str:
+    out_value: str = ""
+    abs_path = f"{path}/{folder}"
+    if not os.path.isdir(abs_path):
+        #print("not folder: ", abs_path)
+        return ""
+    
+    public_folder = f"{abs_path}/public"
+    if os.path.isdir(public_folder):
+        #print("found public: ", public_folder)
+        out_value = public_folder
+    
+    for new_folder in os.listdir(abs_path):
+        if new_folder != public_folder:
+            v = recurse_public(abs_path, new_folder)
+            if v != "":
+                out_value = f"{out_value}{PATH_DELIMITER}{v}"
+    
+    return out_value
+
+cpp_paths = "src/"
+for module in os.listdir("src/modules"):
+    cpp_paths = f"{cpp_paths}{PATH_DELIMITER}{recurse_public("src/modules", module)}"
+
+cpp_paths = list(filter(lambda s: s != "", cpp_paths.split(PATH_DELIMITER)))
+#print(cpp_paths)
+env.Append(CPPPATH=cpp_paths)
+
+
+sources = [File(f) for f in glob.glob("src/**/*.cpp", recursive=True)]
+# sources = Glob("src/**/*.cpp", recursive=True) + Glob("src/*.cpp")
+
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        "playground/bin/{{ cookiecutter.project_name }}.{}.{}.framework/{{ cookiecutter.project_name }}.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+elif env["platform"] == "ios":
+    if env["ios_simulator"]:
+        library = env.StaticLibrary(
+            "playground/bin/{{ cookiecutter.project_name }}.{}.{}.simulator.a".format(env["platform"], env["target"]),
+            source=sources,
+        )
+    else:
+        library = env.StaticLibrary(
+            "playground/bin/{{ cookiecutter.project_name }}.{}.{}.a".format(env["platform"], env["target"]),
+            source=sources,
+        )
+else:
+    library = env.SharedLibrary(
+        "playground/bin/{{ cookiecutter.project_name }}{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
+
+Default(library)

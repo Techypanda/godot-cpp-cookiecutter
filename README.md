@@ -2,6 +2,11 @@
 
 This project allows you to quickly spinup a godot cpp repository following some sane practices to allow you to quickly get up and running with a godot cpp GDExtension.
 
+## Current Issues
+
+1. Windows is only officially supported so far, linux/mac will fail the .vscode folder as its targeting windows
+2. SConstruct is very hacky
+
 ## Prereq
 
 [You will need to install cookiecutter for this to work, while scons was investigated i feel its more painful to get this to work](https://cookiecutter.readthedocs.io/en/stable/installation.html)

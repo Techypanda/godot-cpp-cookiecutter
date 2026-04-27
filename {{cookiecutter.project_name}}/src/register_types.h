@@ -1,0 +1,6 @@
+#ifndef GDEXAMPLE_REGISTER_TYPES_H
+#define GDEXAMPLE_REGISTER_TYPES_H
+
+using namespace godot;
+
+#endif // GDEXAMPLE_REGISTER_TYPES_H

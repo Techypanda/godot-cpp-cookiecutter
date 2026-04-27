@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Godot",
+            "request": "launch",
+            "type": "cppvsdbg",
+            "args": [
+                "--editor",
+                "--path",
+                "playground"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "program": "${workspaceFolder}/godot/bin/godot.windows.editor.dev.x86_64.exe",
+            "visualizerFile": "${workspaceFolder}/godot/platform/windows/godot.natvis",
+            "symbolSearchPath": "${workspaceFolder}/playground/bin;${workspaceFolder}/godot/bin",
+            "logging": {
+                "moduleLoad": true,
+                "engineLogging": true
+            }
+        },
+        {
+            "name": "Attach to Godot",
+            "request": "attach",
+            "type": "cppvsdbg",
+            "processId": "${command:pickProcess}",
+            "visualizerFile": "${workspaceFolder}/godot/platform/windows/godot.natvis",
+            "symbolSearchPath": "${workspaceFolder}/playground/bin;${workspaceFolder}/godot/bin",
+            "logging": {
+                "moduleLoad": true,
+                "engineLogging": true
+            }
+        }
+    ]
+}
