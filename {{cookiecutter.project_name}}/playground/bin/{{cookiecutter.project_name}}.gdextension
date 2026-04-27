@@ -2,33 +2,57 @@
 
 entry_symbol = "{{cookiecutter.project_name}}_library_init"
 compatibility_minimum = "4.1"
-reloadable = true
+reloadable = false
 
 [libraries]
 
-macos.debug = "res://bin/{{cookiecutter.project_name}}.macos.template_debug.dev.framework"
-macos.release = "res://bin/{{cookiecutter.project_name}}.macos.template_release.framework"
-ios.debug = "res://bin/{{cookiecutter.project_name}}.ios.template_debug.dev.xcframework"
-ios.release = "res://bin/{{cookiecutter.project_name}}.ios.template_release.xcframework"
-windows.debug.x86_32 = "res://bin/{{cookiecutter.project_name}}.windows.template_debug.dev.x86_32.dll"
-windows.release.x86_32 = "res://bin/{{cookiecutter.project_name}}.windows.template_release.x86_32.dll"
-windows.debug.x86_64 = "res://bin/{{cookiecutter.project_name}}.windows.template_debug.dev.x86_64.dll"
-windows.release.x86_64 = "res://bin/{{cookiecutter.project_name}}.windows.template_release.x86_64.dll"
-linux.debug.x86_64 = "res://bin/{{cookiecutter.project_name}}.linux.template_debug.dev.x86_64.so"
-linux.release.x86_64 = "res://bin/{{cookiecutter.project_name}}.linux.template_release.x86_64.so"
-linux.debug.arm64 = "res://bin/{{cookiecutter.project_name}}.linux.template_debug.dev.arm64.so"
-linux.release.arm64 = "res://bin/{{cookiecutter.project_name}}.linux.template_release.arm64.so"
-linux.debug.rv64 = "res://bin/{{cookiecutter.project_name}}.linux.template_debug.dev.rv64.so"
-linux.release.rv64 = "res://bin/{{cookiecutter.project_name}}.linux.template_release.rv64.so"
-android.debug.x86_64 = "res://bin/{{cookiecutter.project_name}}.android.template_debug.dev.x86_64.so"
-android.release.x86_64 = "res://bin/{{cookiecutter.project_name}}.android.template_release.x86_64.so"
-android.debug.arm64 = "res://bin/{{cookiecutter.project_name}}.android.template_debug.dev.arm64.so"
-android.release.arm64 = "res://bin/{{cookiecutter.project_name}}.android.template_release.arm64.so"
+; Relative paths ensure that our GDExtension can be placed anywhere in the project directory.
+macos.single.debug = "./macos/{{cookiecutter.project_name}}.macos.template_debug.dylib"
+macos.double.debug = "./macos/{{cookiecutter.project_name}}.macos.template_debug.double.dylib"
+macos.single.release = "./macos/{{cookiecutter.project_name}}.macos.template_release.dylib"
+macos.double.release = "./macos/{{cookiecutter.project_name}}.macos.template_release.double.dylib"
 
-[dependencies]
-ios.debug = {
-    "res://bin/libgodot-cpp.ios.template_debug.dev.xcframework": ""
-}
-ios.release = {
-    "res://bin/libgodot-cpp.ios.template_release.xcframework": ""
-}
+ios.arm64.single.debug = "./ios/{{cookiecutter.project_name}}.ios.template_debug.arm64.dylib"
+ios.arm64.double.debug = "./ios/{{cookiecutter.project_name}}.ios.template_debug.arm64.double.dylib"
+ios.arm64.single.release = "./ios/{{cookiecutter.project_name}}.ios.template_release.arm64.dylib"
+ios.arm64.double.release = "./ios/{{cookiecutter.project_name}}.ios.template_release.arm64.double.dylib"
+
+windows.x86_32.single.debug = "./windows/{{cookiecutter.project_name}}.windows.template_debug.x86_32.dll"
+windows.x86_32.double.debug = "./windows/{{cookiecutter.project_name}}.windows.template_debug.x86_32.double.dll"
+windows.x86_32.single.release = "./windows/{{cookiecutter.project_name}}.windows.template_release.x86_32.dll"
+windows.x86_32.double.release = "./windows/{{cookiecutter.project_name}}.windows.template_release.x86_32.double.dll"
+
+windows.x86_64.single.debug = "./windows/{{cookiecutter.project_name}}.windows.template_debug.x86_64.dll"
+windows.x86_64.double.debug = "./windows/{{cookiecutter.project_name}}.windows.template_debug.x86_64.double.dll"
+windows.x86_64.single.release = "./windows/{{cookiecutter.project_name}}.windows.template_release.x86_64.dll"
+windows.x86_64.double.release = "./windows/{{cookiecutter.project_name}}.windows.template_release.x86_64.double.dll"
+
+linux.x86_64.single.debug = "./linux/{{cookiecutter.project_name}}.linux.template_debug.x86_64.so"
+linux.x86_64.double.debug = "./linux/{{cookiecutter.project_name}}.linux.template_debug.x86_64.double.so"
+linux.x86_64.single.release = "./linux/{{cookiecutter.project_name}}.linux.template_release.x86_64.so"
+linux.x86_64.double.release = "./linux/{{cookiecutter.project_name}}.linux.template_release.x86_64.double.so"
+
+linux.arm64.single.debug = "./linux/{{cookiecutter.project_name}}.linux.template_debug.arm64.so"
+linux.arm64.double.debug = "./linux/{{cookiecutter.project_name}}.linux.template_debug.arm64.double.so"
+linux.arm64.single.release = "./linux/{{cookiecutter.project_name}}.linux.template_release.arm64.so"
+linux.arm64.double.release = "./linux/{{cookiecutter.project_name}}.linux.template_release.arm64.double.so"
+
+linux.rv64.single.debug = "./linux/{{cookiecutter.project_name}}.linux.template_debug.rv64.so"
+linux.rv64.double.debug = "./linux/{{cookiecutter.project_name}}.linux.template_debug.rv64.double.so"
+linux.rv64.single.release = "./linux/{{cookiecutter.project_name}}.linux.template_release.rv64.so"
+linux.rv64.double.release = "./linux/{{cookiecutter.project_name}}.linux.template_release.rv64.double.so"
+
+android.x86_64.single.debug = "./android/{{cookiecutter.project_name}}.android.template_debug.x86_64.so"
+android.x86_64.double.debug = "./android/{{cookiecutter.project_name}}.android.template_debug.x86_64.double.so"
+android.x86_64.single.release = "./android/{{cookiecutter.project_name}}.android.template_release.x86_64.so"
+android.x86_64.double.release = "./android/{{cookiecutter.project_name}}.android.template_release.x86_64.double.so"
+
+android.arm64.single.debug = "./android/{{cookiecutter.project_name}}.android.template_debug.arm64.so"
+android.arm64.double.debug = "./android/{{cookiecutter.project_name}}.android.template_debug.arm64.double.so"
+android.arm64.single.release = "./android/{{cookiecutter.project_name}}.android.template_release.arm64.so"
+android.arm64.double.release = "./android/{{cookiecutter.project_name}}.android.template_release.arm64.double.so"
+
+web.wasm32.single.debug = "./web/{{cookiecutter.project_name}}.web.template_debug.wasm32.nothreads.wasm"
+web.wasm32.double.debug = "./web/{{cookiecutter.project_name}}.web.template_debug.wasm32.double.nothreads.wasm"
+web.wasm32.single.release = "./web/{{cookiecutter.project_name}}.web.template_release.wasm32.nothreads.wasm"
+web.wasm32.double.release = "./web/{{cookiecutter.project_name}}.web.template_release.wasm32.double.nothreads.wasm"
